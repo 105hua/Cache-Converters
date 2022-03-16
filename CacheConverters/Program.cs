@@ -13,7 +13,7 @@ namespace CacheConverters // This is the namespace for the program.
 
             Console.WriteLine("Attempting to kill Discord to prevent errors..."); // Print to console saying that the program will try to kill discord.
 
-            foreach(var process in Process.GetProcessesByName("Discord")) // For each currently running process called Discord.
+            foreach (var process in Process.GetProcessesByName("Discord")) // For each currently running process called Discord.
             { // Beginning of foreach loop.
 
                 process.Kill(); // Kill the process.
@@ -30,7 +30,7 @@ namespace CacheConverters // This is the namespace for the program.
 
                 cache = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\discord\Cache"); // Get a string array for each file in Discord's cache folder.
 
-            }catch(Exception exc) // End of try statement and start of catch statement.
+            } catch (Exception exc) // End of try statement and start of catch statement.
             { // Beginning of catch statement.
 
                 Console.ForegroundColor = ConsoleColor.Red; // Set the consoles foreground color to red.
@@ -56,7 +56,7 @@ namespace CacheConverters // This is the namespace for the program.
 
             Console.WriteLine("Beginning conversion of files...");
 
-            foreach(string file in cache) // For each file in the array of cache files.
+            foreach (string file in cache) // For each file in the array of cache files.
             { // Beginning of foreach loop.
 
                 FileStream source = File.Open(file, FileMode.Open); // Open the source file.
@@ -75,9 +75,24 @@ namespace CacheConverters // This is the namespace for the program.
                 source.Read(sourceData); // Read the source file and store the contents in sourceData.
                 destination.Write(sourceData); // Write sourceData to the destination file.
 
-                Console.WriteLine($"Converted file stored at '{file}'");
+                Console.WriteLine($"Converted file stored at '{file}'"); // Print to console saying that the current file has been converted.
 
             } // Ending of foreach loop.
+
+            ProcessStartInfo explorerInfo = new ProcessStartInfo // Create a new Process Start Info variable to open the "Cache_Converted" file.
+            { // Beginning of parameters.
+
+                Arguments = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\discord\Cache_Converted", // Set the arguments to the "Cache_Converted" file.
+                FileName = "explorer.exe" // Set the file name to File Explorer.
+
+            }; // Ending of parameters.
+
+            Process.Start(explorerInfo); // Start a process with the explorer information.
+
+            Console.WriteLine("Done."); // Print to console saying that the process has been completed.
+
+            Environment.Exit(0); // Exit the environment with code 0.
+            return; // Return.
 
         } // Ending of function.
 
